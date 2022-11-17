@@ -137,35 +137,37 @@ function App() {
     }
   }
 
-
   return (
     <Background>
       <div>asdasd</div>
       <Board>
-      <div onKeyDown={(e) => changeDirection(e)}>
-      <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
-      {/* <img src={Monitor} alt="fruit" width="4000" className="monitor" /> */}
-      <canvas
-        className="playArea"
-        ref={canvasRef}
-        width={`${canvasX}px`}
-        height={`${canvasY}px`}
-      />
-      {gameOver && <div className="gameOver">Game Over</div>}
-      <button onClick={play} className="playButton">
-        Play
-      </button>
-      <div className="scoreBox">
-        <h2>Score: {score}</h2>
-        <h2>High Score: {localStorage.getItem("snakeScore")}</h2>
-      </div>
-    </div>
-        asdasdasd
-      </Board>
-      <PlayerInfo>      <div className="scoreBox">
+        <div onKeyDown={(e) => changeDirection(e)}>
+          <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
+          {/* <img src={Monitor} alt="fruit" width="4000" className="monitor" /> */}
+          <canvas
+            className="playArea"
+            ref={canvasRef}
+            width={`${canvasX}px`}
+            height={`${canvasY}px`}
+          />
+          {gameOver && <div className="gameOver">Game Over</div>}
+          <button onClick={play} className="playButton">
+            Play
+          </button>
+          <div className="scoreBox">
             <h2>Score: {score}</h2>
             <h2>High Score: {localStorage.getItem("snakeScore")}</h2>
-          </div></PlayerInfo>
+          </div>
+        </div>
+        asdasdasd
+      </Board>
+      <PlayerInfo>
+        {" "}
+        <div className="scoreBox">
+          <h2>Score: {score}</h2>
+          <h2>High Score: {localStorage.getItem("snakeScore")}</h2>
+        </div>
+      </PlayerInfo>
     </Background>
   );
 }
