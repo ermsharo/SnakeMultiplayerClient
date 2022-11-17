@@ -23,17 +23,11 @@ const Background = styled.div`
   grid-template-columns: 1fr 1000px 1fr;
 `;
 
-
-
 function IntroPage() {
   return (
     <>
-    <Header>
-Aqui esta o nosso header
-    </Header>
-    
+      <Header>Aqui esta o nosso header</Header>
     </>
-
   );
 }
 

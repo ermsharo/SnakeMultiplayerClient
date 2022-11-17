@@ -10,8 +10,6 @@ const Header = styled.div`
   margin: auto;
   width: 1000px;
   height: 100vh;
-
-  background-color: black;
 `;
 
 const Background = styled.div`
@@ -23,17 +21,11 @@ const Background = styled.div`
   grid-template-columns: 1fr 1000px 1fr;
 `;
 
-
-
 function IntroPage() {
   return (
     <>
-    <Header>
-Aqui esta o nosso header
-    </Header>
-    
+      <Header>Aqui esta o nosso header</Header>
     </>
-
   );
 }
 

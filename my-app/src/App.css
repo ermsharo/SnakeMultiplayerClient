@@ -2,6 +2,9 @@
 body {
   background: white;
   font-family: "Press Start 2P", cursive;
+  padding: 0px;
+  border: 0px;
+  margin: 0px;
 }
 .playArea {
   border: 5px solid transparent;

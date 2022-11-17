@@ -10,8 +10,10 @@ const Board = styled.div`
   margin: auto;
   width: 1000px;
   height: 100vh;
-
-  background-color: black;
+  canvas {
+    border: 2px solid black;
+    background-color: rgba(6, 20, 11, 0.2);
+  }
 `;
 
 const Background = styled.div`
@@ -139,7 +141,7 @@ function App() {
 
   return (
     <Background>
-      <div>asdasd</div>
+      <div></div>
       <Board>
         <div onKeyDown={(e) => changeDirection(e)}>
           <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
@@ -154,19 +156,12 @@ function App() {
           <button onClick={play} className="playButton">
             Play
           </button>
-          <div className="scoreBox">
-            <h2>Score: {score}</h2>
-            <h2>High Score: {localStorage.getItem("snakeScore")}</h2>
-          </div>
         </div>
-        asdasdasd
       </Board>
       <PlayerInfo>
         {" "}
-        <div className="scoreBox">
-          <h2>Score: {score}</h2>
-          <h2>High Score: {localStorage.getItem("snakeScore")}</h2>
-        </div>
+        <h2>Score: {score}</h2>
+        <h2>High Score: {localStorage.getItem("snakeScore")}</h2>
       </PlayerInfo>
     </Background>
   );
