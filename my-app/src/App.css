@@ -18,14 +18,7 @@ body {
 #fruit {
   display: none;
 }
-.monitor {
-  width: 800px;
-  height: 800px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+
 .gameOver {
   position: fixed;
   top: 43.2%;

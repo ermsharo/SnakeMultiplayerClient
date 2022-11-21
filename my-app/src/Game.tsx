@@ -1,10 +1,9 @@
-import logo from "./logo.svg";
+
 import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useInterval from "./hooks/useInterval";
 import AppleLogo from "./assets/applePixels.png";
-import Monitor from "./assets/oldMonitor.png";
 
 const Board = styled.div`
   margin: auto;
@@ -41,7 +40,7 @@ const initialApple = [14, 10];
 const scale = 50;
 const timeDelay = 100;
 
-function App() {
+function Game() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [snake, setSnake] = useState(initialSnake);
   const [apple, setApple] = useState(initialApple);
@@ -145,7 +144,6 @@ function App() {
       <Board>
         <div onKeyDown={(e) => changeDirection(e)}>
           <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
-          {/* <img src={Monitor} alt="fruit" width="4000" className="monitor" /> */}
           <canvas
             className="playArea"
             ref={canvasRef}
@@ -159,7 +157,6 @@ function App() {
         </div>
       </Board>
       <PlayerInfo>
-        {" "}
         <h2>Score: {score}</h2>
         <h2>High Score: {localStorage.getItem("snakeScore")}</h2>
       </PlayerInfo>
@@ -167,4 +164,4 @@ function App() {
   );
 }
 
-export default App;
+export default Game;
