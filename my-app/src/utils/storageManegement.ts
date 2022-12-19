@@ -20,10 +20,6 @@ export const setUserInfo = (id: string, user: string, token: string) => {
   localStorage.setItem("is_logged", "true");
 };
 
-export const getToken = () => {
-  return localStorage.getItem("user_session_token");
-};
-
 export const logout = () => {
   localStorage.clear();
 };

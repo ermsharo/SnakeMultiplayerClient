@@ -1,8 +1,9 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useInterval from "./../../hooks/useInterval";
 import AppleLogo from "./../../assets/applePixels.png";
+import { getIsLogged, getUserInfo } from "./../../utils/storageManegement";
+import { useNavigate } from "react-router-dom";
 
 const Board = styled.div`
   margin: auto;
@@ -39,7 +40,13 @@ const initialApple = [14, 10];
 const scale = 50;
 const timeDelay = 100;
 
-function Game() {
+function Game({ setResponse, socketResponse }: any) {
+  const navigate = useNavigate();
+  console.log("get is logged", getIsLogged());
+
+  if (getIsLogged() === null) {
+    navigate("/");
+  }
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [snake, setSnake] = useState(initialSnake);
   const [apple, setApple] = useState(initialApple);
@@ -49,7 +56,7 @@ function Game() {
   const [score, setScore] = useState(0);
 
   useInterval(() => runGame(), delay);
-
+  const { id, user } = getUserInfo();
   function runGame() {
     const newSnake = [...snake];
     const newSnakeHead = [
@@ -139,7 +146,7 @@ function Game() {
 
   return (
     <Background>
-      <div></div>
+      <div>{user}</div>
       <Board>
         <div onKeyDown={(e) => changeDirection(e)}>
           <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
