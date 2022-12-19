@@ -13,6 +13,7 @@ const BoardBox = styled.div`
   font-family: "Varela Round", sans-serif;
   font-weight: 400;
   height: 100%;
+  padding-top: 64px;
 `;
 
 const LoginBox = styled.div`
@@ -44,17 +45,6 @@ const LogoBox = styled.div`
   display: flex;
   justify-content: center;
   padding: 16px;
-`;
-
-const CreateAccountButton = styled.div`
-  font-family: "Varela Round", sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 16px;
-  padding-left: 8px;
-  &:hover {
-    opacity: 0.7;
-  }
 `;
 
 function Login() {
@@ -93,7 +83,7 @@ function Login() {
         setIsLogged();
         navigate("/game");
       })
-      .catch((error) => {
+      .catch(() => {
         alert("login invalido");
       });
   };
