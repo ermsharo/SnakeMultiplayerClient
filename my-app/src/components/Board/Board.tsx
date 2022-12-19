@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
+import Game from "../Game/Game";
 import styled from "styled-components";
 
 const GamerBox = styled.div`
@@ -17,7 +18,7 @@ function Board() {
         <Header />
         <Routes>
           <Route path="/" element={<Login />}></Route>
-          <Route path="/game" element={<> game </>}></Route>
+          <Route path="/game" element={<Game/>}></Route>
         </Routes>
       </GamerBox>
     </BrowserRouter>

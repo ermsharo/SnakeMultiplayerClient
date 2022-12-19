@@ -1,8 +1,8 @@
-import "./App.css";
+
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useInterval from "./../../hooks/useInterval";
-import AppleLogo from "./assets/applePixels.png";
+import AppleLogo from "./../../assets/applePixels.png";
 
 const Board = styled.div`
   margin: auto;
