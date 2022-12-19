@@ -89,7 +89,7 @@ function Login() {
       })
       .then((response) => {
         console.log("response ->", response.data);
-        setUserInfo(response.data.id, response.data.user, response.data.token);
+        setUserInfo(response.data.id, response.data.name, response.data.token);
         setIsLogged();
         navigate("/game");
       })

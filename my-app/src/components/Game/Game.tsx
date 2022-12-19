@@ -22,6 +22,7 @@ const Background = styled.div`
   background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAqpQe2mZTMhhzBylzw64LP37Ieu2yEYVZkq5VlYtDsWTVWM6PrRkwmYCXpekbSUxhEGc&usqp=CAU");
   display: grid;
   grid-template-columns: 1fr 1000px 1fr;
+  padding-top: 60px;
 `;
 
 const PlayerInfo = styled.div`
@@ -38,11 +39,32 @@ const initialSnake = [
 
 const initialApple = [14, 10];
 const scale = 50;
-const timeDelay = 100;
+const timeDelay = 1000;
 
-function Game({ setResponse, socketResponse }: any) {
+function Game({ socket }: any) {
   const navigate = useNavigate();
-  console.log("get is logged", getIsLogged());
+
+  // const [messages, setMessages] = useState<any | any>([]);
+  // const [typingStatus, setTypingStatus] = useState("");
+  // const lastMessageRef = useRef(null);
+
+  const sendInfoToServer = (info: any) => {
+    console.log("Info ->", info);
+    socket.emit("gameData", { info, socketID: socket.id });
+  };
+  const gameMessageFormat = (
+    playerId: string,
+    playerToken: string,
+    gameStart: boolean,
+    playerPosition: any
+  ) => {
+    return {
+      player_id: playerId,
+      player_token: playerToken,
+      game_start: gameStart,
+      player_position: playerPosition,
+    };
+  };
 
   if (getIsLogged() === null) {
     navigate("/");
@@ -76,7 +98,6 @@ function Game({ setResponse, socketResponse }: any) {
   }
 
   useEffect(() => {
-    console.log("snake", snake);
     let fruit = document.getElementById("fruit") as HTMLCanvasElement;
     if (canvasRef.current) {
       const canvas = canvasRef.current;
@@ -146,8 +167,17 @@ function Game({ setResponse, socketResponse }: any) {
 
   return (
     <Background>
-      <div>{user}</div>
       <Board>
+        <div>
+          {user}{" "}
+          <div
+            onClick={() => {
+              sendInfoToServer("sadasdasdasd");
+            }}
+          >
+            Send stuff
+          </div>
+        </div>
         <div onKeyDown={(e) => changeDirection(e)}>
           <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
           <canvas

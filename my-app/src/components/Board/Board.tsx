@@ -3,9 +3,8 @@ import Header from "../Header/Header";
 import Login from "../Login/Login";
 import Game from "../Game/Game";
 import styled from "styled-components";
-import socketIOClient from "socket.io-client";
-import React, { useState, useEffect } from "react";
-
+// import socketIOClient from "socket.io-client";
+import { io } from "socket.io-client";
 const GamerBox = styled.div`
   background: white;
   padding: 0px;
@@ -13,15 +12,9 @@ const GamerBox = styled.div`
   margin: 0px;
 `;
 
-function Board() {
-  const [socketResponse, setSocketResponse] = useState("");
-  useEffect(() => {
-    const socket = socketIOClient("http://localhost:4000");
-    socket.on("FromAPI", (data) => {
-      setSocketResponse(data);
-    });
-  }, []);
+const socket = io("http://localhost:4000");
 
+function Board() {
   return (
     <BrowserRouter>
       <GamerBox>
@@ -29,15 +22,7 @@ function Board() {
         <Routes>
           <Route path="/" element={<Login />}></Route>
           <Route path="/login" element={<Login />}></Route>
-          <Route
-            path="/game"
-            element={
-              <Game
-                setSocketResponse={setSocketResponse}
-                socketResponse={socketResponse}
-              />
-            }
-          ></Route>
+          <Route path="/game" element={<Game socket={socket} />}></Route>
         </Routes>
       </GamerBox>
     </BrowserRouter>

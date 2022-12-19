@@ -1,15 +1,13 @@
 import styled from "styled-components";
 import {
-  setUserInfo,
-  setIsLogged,
   getIsLogged,
   getUserInfo,
   logout,
 } from "./../../utils/storageManegement";
-import { useState, useEffect } from "react";
 const HeaderBox = styled.div`
-  width: 100vw;
-
+  width: 100%;
+  position: fixed;
+  top: 0px;
   text-align: right;
   background-color: blue;
   color: white;
@@ -30,6 +28,7 @@ const LogoutInfo = styled.div`
 function Header() {
   console.log("header get is logged", getIsLogged());
   if (getIsLogged() != null) {
+    console.log("get user indo ->", getUserInfo());
     const { user } = getUserInfo();
     return (
       <>

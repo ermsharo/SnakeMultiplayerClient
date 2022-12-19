@@ -8,7 +8,7 @@ export const setIsLogged = () => {
 
 export const getUserInfo = () => {
   return {
-    id: localStorage.getItem("id"),
+    id: localStorage.getItem("user_id"),
     user: localStorage.getItem("user_name"),
   };
 };
