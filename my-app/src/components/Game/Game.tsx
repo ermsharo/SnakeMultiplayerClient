@@ -7,8 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const Board = styled.div`
   margin: auto;
-  width: 1000px;
-  height: 100vh;
+
   canvas {
     border: 2px solid black;
     background-color: rgba(6, 20, 11, 0.2);
@@ -16,10 +15,6 @@ const Board = styled.div`
 `;
 
 const Background = styled.div`
-  margin: auto;
-  width: 100%;
-  min-height: 100vh;
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAqpQe2mZTMhhzBylzw64LP37Ieu2yEYVZkq5VlYtDsWTVWM6PrRkwmYCXpekbSUxhEGc&usqp=CAU");
   display: grid;
   grid-template-columns: 1fr 1000px 1fr;
   padding-top: 60px;
@@ -53,9 +48,9 @@ function Game({ socket }: any) {
     socket.emit("gameData", { info, socketID: socket.id });
   };
   const gameMessageFormat = (
-    playerId: string,
-    playerToken: string,
-    gameStart: boolean,
+    playerId: any,
+    playerToken: any,
+    gameStart: any,
     playerPosition: any
   ) => {
     return {
@@ -95,6 +90,8 @@ function Game({ socket }: any) {
       newSnake.pop();
     }
     setSnake(newSnake);
+    let { id, token } = getUserInfo();
+    sendInfoToServer(gameMessageFormat(id, token, true, snake));
   }
 
   useEffect(() => {
@@ -168,16 +165,7 @@ function Game({ socket }: any) {
   return (
     <Background>
       <Board>
-        <div>
-          {user}{" "}
-          <div
-            onClick={() => {
-              sendInfoToServer("sadasdasdasd");
-            }}
-          >
-            Send stuff
-          </div>
-        </div>
+        <div>{user}</div>
         <div onKeyDown={(e) => changeDirection(e)}>
           <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
           <canvas

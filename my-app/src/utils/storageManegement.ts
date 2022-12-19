@@ -10,6 +10,7 @@ export const getUserInfo = () => {
   return {
     id: localStorage.getItem("user_id"),
     user: localStorage.getItem("user_name"),
+    token: localStorage.getItem("user_session_token"),
   };
 };
 

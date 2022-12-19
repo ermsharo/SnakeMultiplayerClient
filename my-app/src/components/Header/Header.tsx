@@ -9,10 +9,12 @@ const HeaderBox = styled.div`
   position: fixed;
   top: 0px;
   text-align: right;
-  background-color: blue;
+  background-color: #1976d2;
   color: white;
   display: flex;
   justify-content: end;
+  font-weight: bolder;
+  font-size: 16px;
 `;
 
 const UserInfo = styled.div`

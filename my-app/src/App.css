@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 body {
   background: white;
-  font-family: "Press Start 2P", cursive;
+  font-family: "Varela Round", sans-serif;
   padding: 0px;
   border: 0px;
   margin: 0px;
@@ -39,7 +39,7 @@ body {
   font-size: 0.9em;
   color: white;
   box-shadow: 4px 4px 0px 0px white;
-  font-family: "Press Start 2P", cursive;
+  font-family: "Varela Round", sans-serif;
   font-weight: 700;
   letter-spacing: 5px;
   text-transform: uppercase;

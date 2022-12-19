@@ -10,7 +10,7 @@ import axios from "axios";
 
 const BoardBox = styled.div`
   width: 100%;
-  font-family: "Varela Round", sans-serif;
+
   font-weight: 400;
   height: 100%;
   padding-top: 64px;
@@ -30,12 +30,12 @@ const LoginBox = styled.div`
   button {
     font-family: "Varela Round", sans-serif;
     font-weight: 700;
-    background-color: blue;
+    /* background-color: blue; */
     border-radius: 20px;
     margin-top: 16px;
 
     &:hover {
-      background-color: blue;
+      /* background-color: blue; */
       opacity: 0.9;
     }
   }
