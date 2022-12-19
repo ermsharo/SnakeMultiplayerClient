@@ -18,7 +18,8 @@ function Board() {
         <Header />
         <Routes>
           <Route path="/" element={<Login />}></Route>
-          <Route path="/game" element={<Game/>}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/game" element={<Game />}></Route>
         </Routes>
       </GamerBox>
     </BrowserRouter>

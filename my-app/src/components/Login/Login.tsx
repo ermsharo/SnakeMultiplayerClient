@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import TextField from "@mui/material/TextField";
+import { Grid } from "../../Styles/GridSystem";
 import Button from "@mui/material/Button";
+// import Logo from "../logo/logo";
+import axios from "axios";
 
 const BoardBox = styled.div`
   width: 100%;
@@ -12,7 +16,7 @@ const BoardBox = styled.div`
 
 const LoginBox = styled.div`
   padding-top: 32px;
-  grid-column: 2/6;
+  grid-column: 3/7;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -59,63 +63,79 @@ function Login() {
     password: "",
   });
 
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault();
-  //   localStorage.setItem("userName", userName);
-  //   // socket.emit("newUser", {userName, socketID: socket.id})
-  //   navigate("/game");
-  // };
+  function handleChange(evt: any) {
+    const value = evt.target.value;
+    setFormInputs({
+      ...formInputs,
+      [evt.target.name]: value,
+    });
+  }
+
+  const singIn = async () => {
+    const headers = {
+      "Content-Type": "text/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
+    };
+
+    await axios
+      .post(
+        "http://localhost:4000/auth/singin",
+        {
+          formInputs,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((response) => {
+        // setRequestErrorAwnser(false);
+        // saveUserInfo(response.data.id, response.data.token, response.data.name);
+        // navigate("/");
+      })
+      .catch((error) => {
+        // setRequestErrorAwnser(error.response.data);
+      });
+  };
 
   return (
     <>
-    <BoardBox>
-      <LogoBox>
-        <Logo color="#00008b" size="6vw" />
-      </LogoBox>
-      <Grid>
-        <LoginBox>
-          <TextField
-            fullWidth
-            id="outlined-name"
-            label="Email"
-            name="email"
-            value={formInputs.email}
-            onChange={handleChange}
-          />
-          <TextField
-            type="password"
-            fullWidth
-            id="outlined-name"
-            label="Password"
-            name="password"
-            value={formInputs.password}
-            onChange={handleChange}
-          />
-   
-   
+      <BoardBox>
+        <LogoBox>{/* <Logo color="#00008b" size="6vw" /> */}</LogoBox>
+        <Grid>
+          <LoginBox>
+            <TextField
+              fullWidth
+              id="outlined-name"
+              label="Email"
+              name="email"
+              value={formInputs.email}
+              onChange={handleChange}
+            />
+            <TextField
+              type="password"
+              fullWidth
+              id="outlined-name"
+              label="Password"
+              name="password"
+              value={formInputs.password}
+              onChange={handleChange}
+            />
 
-
-          <Button
-            onClick={() => {
-              singIn();
-            }}
-            fullWidth
-            variant="contained"
-          >
-            Login
-          </Button>
-
-          <CreateAccountButton
-            onClick={() => {
-              navigate("create-account");
-            }}
-          >
-            Create account
-          </CreateAccountButton>
-        </LoginBox>
-      </Grid>
-    </BoardBox>
-  </>
+            <Button
+              onClick={() => {
+                singIn();
+              }}
+              fullWidth
+              variant="contained"
+            >
+              Login
+            </Button>
+          </LoginBox>
+        </Grid>
+      </BoardBox>
+    </>
   );
 }
 
