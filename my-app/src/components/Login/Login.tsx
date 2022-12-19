@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { Grid } from "../../Styles/GridSystem";
 import Button from "@mui/material/Button";
 // import Logo from "../logo/logo";
+import { setUserInfo, setIsLogged } from "./../../utils/storageManegement";
 import axios from "axios";
 
 const BoardBox = styled.div`
@@ -58,6 +59,7 @@ const CreateAccountButton = styled.div`
 
 function Login() {
   const navigate = useNavigate();
+
   const [formInputs, setFormInputs] = useState({
     email: "",
     password: "",
@@ -79,23 +81,20 @@ function Login() {
       "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
     };
 
+    console.log("form inputs", formInputs);
     await axios
-      .post(
-        "http://localhost:4000/auth/singin",
-        {
-          formInputs,
-        },
-        {
-          headers: headers,
-        }
-      )
+      .post("http://localhost:4000/auth/singin", {
+        headers: headers,
+        body: { formInputs },
+      })
       .then((response) => {
-        // setRequestErrorAwnser(false);
-        // saveUserInfo(response.data.id, response.data.token, response.data.name);
-        // navigate("/");
+        console.log("response ->", response.data);
+        setUserInfo(response.data.id, response.data.user, response.data.token);
+        setIsLogged();
+        navigate("/game");
       })
       .catch((error) => {
-        // setRequestErrorAwnser(error.response.data);
+        alert("login invalido");
       });
   };
 
