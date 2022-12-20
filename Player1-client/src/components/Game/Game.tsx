@@ -45,7 +45,7 @@ const initialSnake = [
 
 const initialApple = [14, 10];
 const scale = 50;
-const timeDelay = 100;
+const timeDelay = 2000;
 
 function Game({ socket }: any) {
   const navigate = useNavigate();
@@ -95,17 +95,20 @@ function Game({ socket }: any) {
   const gameMessageFormat = (
     playerId: any,
     playerToken: any,
-    playerPosition: any
+    playerPosition: any,
+    playerDirection:any,
   ) => {
     return {
       player_id: playerId,
       player_token: playerToken,
       player_position: playerPosition,
+      player_directon: playerDirection
     };
   };
 
   if (getIsLogged() === null) {
-    navigate("/");
+    console.log("is logged", getIsLogged());
+    navigate("/login")
   }
 
   useInterval(() => runGame(), delay);
@@ -120,7 +123,6 @@ function Game({ socket }: any) {
       newSnake.unshift(newSnakeHead);
       if (checkCollision(newSnakeHead)) {
         setDelay(null);
-        setGameOver(true);
         handleSetScore();
       }
       if (!appleAte(newSnake)) {
@@ -129,7 +131,7 @@ function Game({ socket }: any) {
     }
     setSnake(newSnake);
     manageOtherPlayerSnake();
-    sendInfoToServer(gameMessageFormat(id, token, snake));
+    sendInfoToServer(gameMessageFormat(id, token, snake, direction));
   }
 
   useEffect(() => {

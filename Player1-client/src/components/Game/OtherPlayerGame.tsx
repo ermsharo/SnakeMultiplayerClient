@@ -1,6 +1,4 @@
-import styled from "styled-components";
-import { getUserInfo } from "./../../utils/storageManegement";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const canvasX = 1000;
 const canvasY = 1000;
@@ -27,8 +25,6 @@ function OtherGamePlayer({ otherPlayerSnake }: any) {
     }
   }, [otherPlayerSnake]);
 
-  // console.log("id ->", id)
-  // console.log("game info from other" , gameInfo)
 
   if (!otherPlayerSnake)
     return <div className="playArea">Sem representação do outro player</div>;

@@ -4,6 +4,8 @@ import {
   getUserInfo,
   logout,
 } from "./../../utils/storageManegement";
+import { useNavigate } from "react-router-dom"
+;
 const HeaderBox = styled.div`
   width: 100%;
   position: fixed;
@@ -14,23 +16,26 @@ const HeaderBox = styled.div`
   display: flex;
   justify-content: end;
   font-weight: bolder;
-  font-size: 16px;
+  font-size: 18px;
 `;
 
 const UserInfo = styled.div`
   padding: 30px;
+  height: 20px;
 `;
 
 const LogoutInfo = styled.div`
   padding: 30px;
-  color: orange;
+  color: white;
+  font-weight: bolder;
+  font-size: 18px;
   cursor: pointer;
 `;
 
 function Header() {
-  console.log("header get is logged", getIsLogged());
+  const navigate = useNavigate();
+
   if (getIsLogged() != null) {
-    console.log("get user indo ->", getUserInfo());
     const { user } = getUserInfo();
     return (
       <>
@@ -42,7 +47,7 @@ function Header() {
               window.location.reload();
             }}
           >
-            LOGOUT
+            Logout
           </LogoutInfo>
         </HeaderBox>
       </>
@@ -52,7 +57,7 @@ function Header() {
     <>
       <>
         <HeaderBox>
-          <UserInfo>Login</UserInfo>
+          <UserInfo> </UserInfo>
         </HeaderBox>
       </>
     </>
