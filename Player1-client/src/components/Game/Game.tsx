@@ -5,6 +5,7 @@ import AppleLogo from "./../../assets/applePixels.png";
 import { getIsLogged, getUserInfo } from "./../../utils/storageManegement";
 import { useNavigate } from "react-router-dom";
 import OtherGamePlayer from "./OtherPlayerGame";
+import { useHotkeys } from 'react-hotkeys-hook';
 const Board = styled.div`
   margin: auto;
 
@@ -46,11 +47,11 @@ function Game({ socket }: any) {
 
   useEffect(() => {
     socket.on("gameData", (data: any) => setGameInfo(data));
-    console.log("gameData", gameInfo);
+    // console.log("gameData", gameInfo);
   }, [socket, gameInfo]);
 
   const sendInfoToServer = (info: any) => {
-    console.log("Info ->", info);
+    // console.log("Info ->", info);
     socket.emit("gameData", { info, socketID: socket.id });
   };
   const gameMessageFormat = (
@@ -149,29 +150,36 @@ function Game({ socket }: any) {
     return false;
   }
 
-  function changeDirection(e: React.KeyboardEvent<HTMLDivElement>) {
-    switch (e.key) {
-      case "ArrowLeft":
-        setDirection([-1, 0]);
-        break;
-      case "ArrowUp":
-        setDirection([0, -1]);
-        break;
-      case "ArrowRight":
-        setDirection([1, 0]);
-        break;
-      case "ArrowDown":
-        setDirection([0, 1]);
-        break;
-    }
-  }
+  useHotkeys('left', () => {setDirection([-1, 0]);})
+  useHotkeys('up', () => {setDirection([0, -1]);})
+  useHotkeys('right', () => {setDirection([1, 0]);})
+  useHotkeys('down', () => {setDirection([0, 1]);})
+  // useHotkeys('up', () => {console.log("up working")})
+
+  // function changeDirection(e: React.KeyboardEvent<HTMLDivElement>) {
+  //   console.log("tentando digitar")
+  //   switch (e.key) {
+  //     case "ArrowLeft":
+  //       setDirection([-1, 0]); console.log("esquerda")
+  //       break;
+  //     case "ArrowUp":
+  //       setDirection([0, -1]);console.log("cima")
+  //       break;
+  //     case "ArrowRight":
+  //       setDirection([1, 0]);
+  //       break;
+  //     case "ArrowDown":
+  //       setDirection([0, 1]);
+  //       break;
+  //   }
+  // }
 
   return (
     <Board>
       <div>
         <RegularPlayer>
           {" "}
-          <div onKeyDown={(e) => changeDirection(e)}>
+          <div >
             <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
             <canvas
               className="playArea"
@@ -186,7 +194,7 @@ function Game({ socket }: any) {
           </div>
         </RegularPlayer>
         <OtherPlayer>
-          <OtherGamePlayer />
+          {/* <OtherGamePlayer /> */}
         </OtherPlayer>
       </div>
     </Board>
