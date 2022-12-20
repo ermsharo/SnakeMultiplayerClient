@@ -20,10 +20,6 @@ const Background = styled.div`
   padding-top: 60px;
 `;
 
-const PlayerInfo = styled.div`
-  width: 100%;
-`;
-
 const canvasX = 1000;
 const canvasY = 1000;
 
@@ -39,9 +35,12 @@ const timeDelay = 1000;
 function Game({ socket }: any) {
   const navigate = useNavigate();
 
-  // const [messages, setMessages] = useState<any | any>([]);
-  // const [typingStatus, setTypingStatus] = useState("");
-  // const lastMessageRef = useRef(null);
+  const [gameInfo, setGameInfo] = useState([]);
+
+  useEffect(() => {
+    socket.on("gameData", (data: any) => setGameInfo(data));
+    console.log("gameData", gameInfo);
+  }, [socket, gameInfo]);
 
   const sendInfoToServer = (info: any) => {
     console.log("Info ->", info);
@@ -50,13 +49,11 @@ function Game({ socket }: any) {
   const gameMessageFormat = (
     playerId: any,
     playerToken: any,
-    gameStart: any,
     playerPosition: any
   ) => {
     return {
       player_id: playerId,
       player_token: playerToken,
-      game_start: gameStart,
       player_position: playerPosition,
     };
   };
@@ -91,7 +88,7 @@ function Game({ socket }: any) {
     }
     setSnake(newSnake);
     let { id, token } = getUserInfo();
-    sendInfoToServer(gameMessageFormat(id, token, true, snake));
+    sendInfoToServer(gameMessageFormat(id, token, snake));
   }
 
   useEffect(() => {
@@ -165,7 +162,6 @@ function Game({ socket }: any) {
   return (
     <Background>
       <Board>
-        <div>{user}</div>
         <div onKeyDown={(e) => changeDirection(e)}>
           <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
           <canvas
@@ -180,10 +176,6 @@ function Game({ socket }: any) {
           </button>
         </div>
       </Board>
-      <PlayerInfo>
-        <h2>Score: {score}</h2>
-        <h2>High Score: {localStorage.getItem("snakeScore")}</h2>
-      </PlayerInfo>
     </Background>
   );
 }
