@@ -45,7 +45,7 @@ const initialSnake = [
 
 const initialApple = [14, 10];
 const scale = 50;
-const timeDelay = 1000;
+const timeDelay = 100;
 
 function Game({ socket }: any) {
   const navigate = useNavigate();
@@ -53,12 +53,36 @@ function Game({ socket }: any) {
   const [gameInfo, setGameInfo] = useState<any>([]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [snake, setSnake] = useState(initialSnake);
+  const [otherPlayerSnake, setOtherPlayerSnake] = useState(null);
   const [apple, setApple] = useState(initialApple);
   const [direction, setDirection] = useState([0, -1]);
   const [delay, setDelay] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [waitingPlayers, setWaitingPlayers] = useState(true);
+
+  const manageOtherPlayerSnake = () => {
+    console.log("gameInfo", gameInfo);
+    console.log("gameInfo", gameInfo.gameStatus);
+    let playerOnePositionArray = gameInfo['playerOnePosition'];
+    let playerTwoPositionArray = gameInfo['playerTwoPositon'];
+    console.log('p1 p ->',playerOnePositionArray)
+    console.log('p2 p ->',playerTwoPositionArray)
+    if (gameInfo.gameStatus === "running") {
+
+      if(id === '1'){
+        console.log("PLayer id", id)
+        console.log("Player 1 position",playerOnePositionArray)
+        setOtherPlayerSnake(playerTwoPositionArray)
+      }
+      if(id === '2'){
+        console.log("PLayer id", id)
+        console.log("Player 2 position",playerTwoPositionArray)
+        setOtherPlayerSnake(playerOnePositionArray)
+      }
+    }
+  };
+
 
   useEffect(() => {
     socket.on("gameData", (data: any) => setGameInfo(data));
@@ -85,7 +109,7 @@ function Game({ socket }: any) {
   }
 
   useInterval(() => runGame(), delay);
-  const { id, user } = getUserInfo();
+  let { id, token } = getUserInfo();
   const newSnake = [...snake];
   function runGame() {
     if (!waitingPlayers) {
@@ -104,7 +128,7 @@ function Game({ socket }: any) {
       }
     }
     setSnake(newSnake);
-    let { id, token } = getUserInfo();
+    manageOtherPlayerSnake();
     sendInfoToServer(gameMessageFormat(id, token, snake));
   }
 
@@ -184,6 +208,8 @@ function Game({ socket }: any) {
       </Board>
     );
   }
+
+
   return (
     <Board>
       <div>
@@ -205,8 +231,7 @@ function Game({ socket }: any) {
         </RegularPlayer>
         <OtherPlayer>
           <OtherGamePlayer
-            otherPlayerSnake={initialSnake}
-            gameInfo={gameInfo}
+            otherPlayerSnake={otherPlayerSnake}
           />
         </OtherPlayer>
       </div>
