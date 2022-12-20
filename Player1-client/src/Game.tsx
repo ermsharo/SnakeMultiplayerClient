@@ -69,7 +69,7 @@ function Game() {
   }
 
   useEffect(() => {
-    console.log("snake", snake);
+    // console.log("snake", snake);
     let fruit = document.getElementById("fruit") as HTMLCanvasElement;
     if (canvasRef.current) {
       const canvas = canvasRef.current;

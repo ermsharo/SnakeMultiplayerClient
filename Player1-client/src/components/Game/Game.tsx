@@ -31,7 +31,7 @@ const WaitingPlayersMessage = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  font-size :24px ;
+  font-size: 24px;
   line-height: 440px;
 `;
 
@@ -62,7 +62,7 @@ function Game({ socket }: any) {
 
   useEffect(() => {
     socket.on("gameData", (data: any) => setGameInfo(data));
-    if(gameInfo.gameStatus == "running") setWaitingPlayers(false)
+    if (gameInfo.gameStatus === "running") setWaitingPlayers(false);
   }, [socket, gameInfo]);
 
   const sendInfoToServer = (info: any) => {
@@ -88,28 +88,25 @@ function Game({ socket }: any) {
   const { id, user } = getUserInfo();
   const newSnake = [...snake];
   function runGame() {
-    if(!waitingPlayers){
-    const newSnakeHead = [
-      newSnake[0][0] + direction[0],
-      newSnake[0][1] + direction[1],
-    ];
-    newSnake.unshift(newSnakeHead);
-    if (checkCollision(newSnakeHead)) {
-      setDelay(null);
-      setGameOver(true);
-      handleSetScore();
+    if (!waitingPlayers) {
+      const newSnakeHead = [
+        newSnake[0][0] + direction[0],
+        newSnake[0][1] + direction[1],
+      ];
+      newSnake.unshift(newSnakeHead);
+      if (checkCollision(newSnakeHead)) {
+        setDelay(null);
+        setGameOver(true);
+        handleSetScore();
+      }
+      if (!appleAte(newSnake)) {
+        newSnake.pop();
+      }
     }
-    if (!appleAte(newSnake)) {
-      newSnake.pop();
-    }
-
-  }
-   setSnake(newSnake);
-   console.log("Snake->", newSnake)
+    setSnake(newSnake);
     let { id, token } = getUserInfo();
     sendInfoToServer(gameMessageFormat(id, token, snake));
   }
-
 
   useEffect(() => {
     let fruit = document.getElementById("fruit") as HTMLCanvasElement;
@@ -175,18 +172,17 @@ function Game({ socket }: any) {
     setDirection([0, 1]);
   });
 
-
-
-
-  if(waitingPlayers){
-    return( <Board>
-      <WaitingPlayersMessage>
-      Esperando a entrada de todos os jogadores
-      </WaitingPlayersMessage>
-      <button onClick={play} className="playButton">
-              Entrar no jogo
-      </button>
-    </Board>)
+  if (waitingPlayers) {
+    return (
+      <Board>
+        <WaitingPlayersMessage>
+          Esperando a entrada de todos os jogadores
+        </WaitingPlayersMessage>
+        <button onClick={play} className="playButton">
+          Entrar no jogo
+        </button>
+      </Board>
+    );
   }
   return (
     <Board>
@@ -208,7 +204,10 @@ function Game({ socket }: any) {
           </div>
         </RegularPlayer>
         <OtherPlayer>
-          <OtherGamePlayer otherPlayerSnake={initialSnake} />
+          <OtherGamePlayer
+            otherPlayerSnake={initialSnake}
+            gameInfo={gameInfo}
+          />
         </OtherPlayer>
       </div>
     </Board>
