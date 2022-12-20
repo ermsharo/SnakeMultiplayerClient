@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import useInterval from "./../../hooks/useInterval";
+import useInterval from "../../hooks/useInterval";
 import AppleLogo from "./../../assets/applePixels.png";
-import { getIsLogged, getUserInfo } from "./../../utils/storageManegement";
+import { getIsLogged, getUserInfo } from "../../utils/storageManegement";
 import { useNavigate } from "react-router-dom";
 import OtherGamePlayer from "./OtherPlayerGame";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -62,22 +62,22 @@ function Game({ socket }: any) {
   const [waitingPlayers, setWaitingPlayers] = useState(true);
 
   const manageOtherPlayerSnake = () => {
-    console.log("gameInfo", gameInfo);
-    console.log("gameInfo", gameInfo.gameStatus);
+    // console.log("gameInfo", gameInfo);
+    // console.log("gameInfo", gameInfo.gameStatus);
     let playerOnePositionArray = gameInfo['playerOnePosition'];
     let playerTwoPositionArray = gameInfo['playerTwoPositon'];
-    console.log('p1 p ->',playerOnePositionArray)
-    console.log('p2 p ->',playerTwoPositionArray)
+    // console.log('p1 p ->',playerOnePositionArray)
+    // console.log('p2 p ->',playerTwoPositionArray)
     if (gameInfo.gameStatus === "running") {
 
       if(id === '1'){
-        console.log("PLayer id", id)
-        console.log("Player 1 position",playerOnePositionArray)
+        // console.log("PLayer id", id)
+        // console.log("Player 1 position",playerOnePositionArray)
         setOtherPlayerSnake(playerTwoPositionArray)
       }
       if(id === '2'){
-        console.log("PLayer id", id)
-        console.log("Player 2 position",playerTwoPositionArray)
+        // console.log("PLayer id", id)
+        // console.log("Player 2 position",playerTwoPositionArray)
         setOtherPlayerSnake(playerOnePositionArray)
       }
     }
@@ -86,6 +86,7 @@ function Game({ socket }: any) {
 
   useEffect(() => {
     socket.on("gameData", (data: any) => setGameInfo(data));
+    console.log("Game info", gameInfo)
     if (gameInfo.gameStatus === "running") setWaitingPlayers(false);
   }, [socket, gameInfo]);
 

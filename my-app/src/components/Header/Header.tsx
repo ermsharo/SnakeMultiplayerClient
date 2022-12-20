@@ -3,7 +3,7 @@ import {
   getIsLogged,
   getUserInfo,
   logout,
-} from "./../../utils/storageManegement";
+} from "../../utils/storageManegement";
 import { useNavigate } from "react-router-dom"
 ;
 const HeaderBox = styled.div`
