@@ -15,6 +15,16 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.OtherPlayArea {
+  border: 5px solid transparent;
+  width: 585px;
+  height: 440px;
+  position: fixed;
+  top: 43.2%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #fruit {
   display: none;
 }

@@ -4,7 +4,7 @@ import useInterval from "./../../hooks/useInterval";
 import AppleLogo from "./../../assets/applePixels.png";
 import { getIsLogged, getUserInfo } from "./../../utils/storageManegement";
 import { useNavigate } from "react-router-dom";
-
+import OtherGamePlayer from "./OtherPlayerGame";
 const Board = styled.div`
   margin: auto;
 
@@ -19,6 +19,13 @@ const Background = styled.div`
   grid-template-columns: 1fr 1000px 1fr;
   padding-top: 60px;
 `;
+
+const OtherPlayer = styled.div`
+  margin: auto;
+  border: 2px solid red;
+  width: 100%;
+`;
+const RegularPlayer = styled.div``;
 
 const canvasX = 1000;
 const canvasY = 1000;
@@ -160,23 +167,29 @@ function Game({ socket }: any) {
   }
 
   return (
-    <Background>
-      <Board>
-        <div onKeyDown={(e) => changeDirection(e)}>
-          <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
-          <canvas
-            className="playArea"
-            ref={canvasRef}
-            width={`${canvasX}px`}
-            height={`${canvasY}px`}
-          />
-          {gameOver && <div className="gameOver">Game Over</div>}
-          <button onClick={play} className="playButton">
-            Play
-          </button>
-        </div>
-      </Board>
-    </Background>
+    <Board>
+      <div>
+        <RegularPlayer>
+          {" "}
+          <div onKeyDown={(e) => changeDirection(e)}>
+            <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
+            <canvas
+              className="playArea"
+              ref={canvasRef}
+              width={`${canvasX}px`}
+              height={`${canvasY}px`}
+            />
+            {gameOver && <div className="gameOver">Game Over</div>}
+            <button onClick={play} className="playButton">
+              Play
+            </button>
+          </div>
+        </RegularPlayer>
+        <OtherPlayer>
+          <OtherGamePlayer />
+        </OtherPlayer>
+      </div>
+    </Board>
   );
 }
 
