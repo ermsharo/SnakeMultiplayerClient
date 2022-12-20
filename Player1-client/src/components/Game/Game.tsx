@@ -5,7 +5,7 @@ import AppleLogo from "./../../assets/applePixels.png";
 import { getIsLogged, getUserInfo } from "./../../utils/storageManegement";
 import { useNavigate } from "react-router-dom";
 import OtherGamePlayer from "./OtherPlayerGame";
-import { useHotkeys } from 'react-hotkeys-hook';
+import { useHotkeys } from "react-hotkeys-hook";
 const Board = styled.div`
   margin: auto;
 
@@ -15,18 +15,25 @@ const Board = styled.div`
   }
 `;
 
-const Background = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1000px 1fr;
-  padding-top: 60px;
-`;
-
 const OtherPlayer = styled.div`
   margin: auto;
   border: 2px solid red;
   width: 100%;
 `;
 const RegularPlayer = styled.div``;
+
+const WaitingPlayersMessage = styled.div`
+  border: 2px solid black;
+  width: 585px;
+  height: 440px;
+  position: fixed;
+  top: 43.2%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size :24px ;
+  line-height: 440px;
+`;
 
 const canvasX = 1000;
 const canvasY = 1000;
@@ -43,15 +50,22 @@ const timeDelay = 1000;
 function Game({ socket }: any) {
   const navigate = useNavigate();
 
-  const [gameInfo, setGameInfo] = useState([]);
+  const [gameInfo, setGameInfo] = useState<any>([]);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [snake, setSnake] = useState(initialSnake);
+  const [apple, setApple] = useState(initialApple);
+  const [direction, setDirection] = useState([0, -1]);
+  const [delay, setDelay] = useState<number | null>(null);
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [waitingPlayers, setWaitingPlayers] = useState(true);
 
   useEffect(() => {
     socket.on("gameData", (data: any) => setGameInfo(data));
-    // console.log("gameData", gameInfo);
+    if(gameInfo.gameStatus == "running") setWaitingPlayers(false)
   }, [socket, gameInfo]);
 
   const sendInfoToServer = (info: any) => {
-    // console.log("Info ->", info);
     socket.emit("gameData", { info, socketID: socket.id });
   };
   const gameMessageFormat = (
@@ -69,18 +83,12 @@ function Game({ socket }: any) {
   if (getIsLogged() === null) {
     navigate("/");
   }
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [snake, setSnake] = useState(initialSnake);
-  const [apple, setApple] = useState(initialApple);
-  const [direction, setDirection] = useState([0, -1]);
-  const [delay, setDelay] = useState<number | null>(null);
-  const [gameOver, setGameOver] = useState(false);
-  const [score, setScore] = useState(0);
 
   useInterval(() => runGame(), delay);
   const { id, user } = getUserInfo();
+  const newSnake = [...snake];
   function runGame() {
-    const newSnake = [...snake];
+    if(!waitingPlayers){
     const newSnakeHead = [
       newSnake[0][0] + direction[0],
       newSnake[0][1] + direction[1],
@@ -94,10 +102,14 @@ function Game({ socket }: any) {
     if (!appleAte(newSnake)) {
       newSnake.pop();
     }
-    setSnake(newSnake);
+
+  }
+   setSnake(newSnake);
+   console.log("Snake->", newSnake)
     let { id, token } = getUserInfo();
     sendInfoToServer(gameMessageFormat(id, token, snake));
   }
+
 
   useEffect(() => {
     let fruit = document.getElementById("fruit") as HTMLCanvasElement;
@@ -150,36 +162,38 @@ function Game({ socket }: any) {
     return false;
   }
 
-  useHotkeys('left', () => {setDirection([-1, 0]);})
-  useHotkeys('up', () => {setDirection([0, -1]);})
-  useHotkeys('right', () => {setDirection([1, 0]);})
-  useHotkeys('down', () => {setDirection([0, 1]);})
-  // useHotkeys('up', () => {console.log("up working")})
+  useHotkeys("left", () => {
+    setDirection([-1, 0]);
+  });
+  useHotkeys("up", () => {
+    setDirection([0, -1]);
+  });
+  useHotkeys("right", () => {
+    setDirection([1, 0]);
+  });
+  useHotkeys("down", () => {
+    setDirection([0, 1]);
+  });
 
-  // function changeDirection(e: React.KeyboardEvent<HTMLDivElement>) {
-  //   console.log("tentando digitar")
-  //   switch (e.key) {
-  //     case "ArrowLeft":
-  //       setDirection([-1, 0]); console.log("esquerda")
-  //       break;
-  //     case "ArrowUp":
-  //       setDirection([0, -1]);console.log("cima")
-  //       break;
-  //     case "ArrowRight":
-  //       setDirection([1, 0]);
-  //       break;
-  //     case "ArrowDown":
-  //       setDirection([0, 1]);
-  //       break;
-  //   }
-  // }
 
+
+
+  if(waitingPlayers){
+    return( <Board>
+      <WaitingPlayersMessage>
+      Esperando a entrada de todos os jogadores
+      </WaitingPlayersMessage>
+      <button onClick={play} className="playButton">
+              Entrar no jogo
+      </button>
+    </Board>)
+  }
   return (
     <Board>
       <div>
         <RegularPlayer>
           {" "}
-          <div >
+          <div>
             <img id="fruit" src={AppleLogo} alt="fruit" width="30" />
             <canvas
               className="playArea"
@@ -189,12 +203,12 @@ function Game({ socket }: any) {
             />
             {gameOver && <div className="gameOver">Game Over</div>}
             <button onClick={play} className="playButton">
-              Play
+              Entar no jogo
             </button>
           </div>
         </RegularPlayer>
         <OtherPlayer>
-          {/* <OtherGamePlayer /> */}
+          <OtherGamePlayer otherPlayerSnake={initialSnake} />
         </OtherPlayer>
       </div>
     </Board>
